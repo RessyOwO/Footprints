@@ -41,6 +41,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     SupportMapFragment mapFragment;
     FusedLocationProviderClient client;
 
+    MarkerOptions globalMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +97,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onMapReady(@NonNull GoogleMap googleMap) {
                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Current Location");
+                        globalMarker = new MarkerOptions().position(latLng).title("Current Location");
 
-                        googleMap.addMarker(markerOptions.icon(BitmapFromVector(getApplicationContext(), R.drawable.baseline_my_location_24)));
+                        googleMap.addMarker(globalMarker.icon(BitmapFromVector(getApplicationContext(), R.drawable.baseline_my_location_24)));
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                     }
                 });
@@ -145,4 +147,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
+
 }
