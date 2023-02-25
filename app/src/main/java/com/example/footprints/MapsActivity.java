@@ -79,13 +79,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void getMyLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
 
@@ -93,15 +86,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                mapFragment.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(@NonNull GoogleMap googleMap) {
-                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        globalMarker = new MarkerOptions().position(latLng).title("Current Location");
+                mapFragment.getMapAsync(googleMap -> {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    globalMarker = new MarkerOptions().position(latLng).title("Current Location");
 
-                        googleMap.addMarker(globalMarker.icon(BitmapFromVector(getApplicationContext(), R.drawable.baseline_my_location_24)));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                    }
+                    googleMap.addMarker(globalMarker.icon(BitmapFromVector(getApplicationContext(), R.drawable.baseline_my_location_24)));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
                 });
             }
         });
